@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface ApodProxy {
 
-  @GET
+  @GET("planetary/apod")
   Call<Apod> get(@Query("date") LocalDate date, @Query("api_key") String apiKey);
 
 }

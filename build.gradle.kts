@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import java.io.FileInputStream
+import java.io.InputStream
+import java.util.Properties
 
 plugins {
     java
@@ -55,3 +58,11 @@ tasks.test {
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
 }
+
+fun getProperty(filename: String, key: String): String {
+    val input: InputStream = FileInputStream(filename)
+    val props = Properties()
+    props.load(input)
+    return props.getProperty(key)!!
+}
+
