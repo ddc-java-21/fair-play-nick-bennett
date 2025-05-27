@@ -23,8 +23,7 @@ pluginManagement {
     }
 }
 
-// This must be the assignment name (should also be directory name and GitHub repo name) in lower-spinal-case.
-rootProject.name = "practical-assignment-template"
+rootProject.name = "nasa-apod"
 
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
@@ -32,20 +31,5 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            name = "GitHubPackages"
-            url = URI("https://maven.pkg.github.com/ddc-java/${rootProject.name}-solution")
-            credentials {
-                username = System.getenv("PACKAGE_CONSUMER_USER")
-                password = System.getenv("PACKAGE_CONSUMER_TOKEN")
-            }
-        }
     }
-}
-
-
-// TODO REMOVE THIS BLOCK when copying settings to a project; in this template, use it to check for
-//  new library versions.
-plugins {
-    id("de.fayard.refreshVersions") version "0.60.5"
 }

@@ -27,6 +27,12 @@ java {
 }
 
 dependencies {
+
+    implementation(libs.gson)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.logging.interceptor)
+
     testImplementation(libs.junit.aggregator)
     testRuntimeOnly(libs.junit.engine)
     testRuntimeOnly(libs.junit.platform)

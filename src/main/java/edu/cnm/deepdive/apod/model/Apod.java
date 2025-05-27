@@ -1,0 +1,76 @@
+package edu.cnm.deepdive.apod.model;
+
+import com.google.gson.annotations.Expose;
+import java.net.URL;
+import java.time.LocalDate;
+
+public class Apod {
+
+  @Expose(serialize = false, deserialize = true)
+  private final LocalDate date;
+
+  @Expose(serialize = false, deserialize = true)
+  private final String title;
+
+  @Expose(serialize = false, deserialize = true)
+  private final String explanation;
+
+  @Expose(serialize = false, deserialize = true)
+  private final String copyright;
+
+  @Expose(serialize = false, deserialize = true)
+  private final URL url;
+
+  @Expose(serialize = false, deserialize = true)
+  private final URL hdurl;
+
+  @Expose(serialize = false, deserialize = true)
+  private final MediaType mediaType;
+
+  Apod(LocalDate date, String title, String explanation, String copyright, URL url, URL hdurl,
+      MediaType mediaType) {
+    this.date = date;
+    this.title = title;
+    this.explanation = explanation;
+    this.copyright = copyright;
+    this.url = url;
+    this.hdurl = hdurl;
+    this.mediaType = mediaType;
+  }
+
+  public LocalDate getDate() {
+    return date;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public String getExplanation() {
+    return explanation;
+  }
+
+  public String getCopyright() {
+    return copyright;
+  }
+
+  public URL getUrl() {
+    return url;
+  }
+
+  public URL getHdurl() {
+    return hdurl;
+  }
+
+  public MediaType getMediaType() {
+    return mediaType;
+  }
+
+  public enum MediaType {
+
+    IMAGE,
+    VIDEO;
+
+  }
+
+}
