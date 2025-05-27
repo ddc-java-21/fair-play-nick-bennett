@@ -60,9 +60,13 @@ tasks.jacocoTestReport {
 }
 
 fun getProperty(filename: String, key: String): String {
-    val input: InputStream = FileInputStream(filename)
-    val props = Properties()
-    props.load(input)
-    return props.getProperty(key)!!
+    return FileInputStream(filename).use {
+        val props = Properties()
+        props.load(it)
+        props.getProperty(key)!!
+    }
 }
 
+fun getLocalProperty(key: String): String {
+    return getProperty("local.properties", key)
+}
