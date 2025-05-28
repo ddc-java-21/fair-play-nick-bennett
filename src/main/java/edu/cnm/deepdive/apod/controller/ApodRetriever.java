@@ -4,7 +4,12 @@ import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.service.ApodService;
 import edu.cnm.deepdive.apod.view.ApodView;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
@@ -67,11 +72,14 @@ public class ApodRetriever implements Callable<Integer> {
         out.println(representation);
       }
       if (stdDefOutput != null) {
-        Matcher matcher = FILENAME_PATTERN.matcher(stdDefOutput);
+        Matcher matcher = FILENAME_PATTERN.matcher(apod.getUrl().toString());
         if (matcher.matches()) {
           String stdDefFilename = (stdDefOutput.isBlank())
               ? matcher.group(1)
               : PROVIDED_FILENAME_FORMAT.formatted(stdDefOutput, matcher.group(2));
+          Path output = Paths.get(stdDefFilename);
+          InputStream input = service.getImageStream(apod.getUrl());
+          Files.copy(input, output, StandardCopyOption.REPLACE_EXISTING);
         }
       }
       return 0;
