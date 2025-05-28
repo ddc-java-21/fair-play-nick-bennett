@@ -35,6 +35,8 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.logging.interceptor)
+    implementation(libs.picocli)
+    implementation(libs.picocli.annotation.processor)
 
     testImplementation(libs.junit.aggregator)
     testRuntimeOnly(libs.junit.engine)

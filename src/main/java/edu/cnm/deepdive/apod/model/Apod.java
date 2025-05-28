@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.apod.model;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.net.URL;
 import java.time.LocalDate;
 
@@ -25,6 +26,7 @@ public class Apod {
   private final URL hdurl;
 
   @Expose(serialize = false, deserialize = true)
+  @SerializedName("media_type")
   private final MediaType mediaType;
 
   Apod(LocalDate date, String title, String explanation, String copyright, URL url, URL hdurl,
@@ -68,7 +70,9 @@ public class Apod {
 
   public enum MediaType {
 
+    @SerializedName("image")
     IMAGE,
+    @SerializedName("video")
     VIDEO;
 
   }
