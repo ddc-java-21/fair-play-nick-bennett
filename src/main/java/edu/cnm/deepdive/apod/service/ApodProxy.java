@@ -14,7 +14,10 @@ public interface ApodProxy {
   @GET("planetary/apod")
   Call<Apod> get(@Query("date") LocalDate date, @Query("api_key") String apiKey);
 
-  // TODO: 5/28/25 Add request for range of dates.
+  @GET("planetary/apod")
+  Call<Apod[]> get(
+      @Query("start_date") LocalDate startDate, @Query("end_date") LocalDate endDate,
+      @Query("api_key") String apiKey);
 
   @GET
   Call<ResponseBody> download(@Url String url);

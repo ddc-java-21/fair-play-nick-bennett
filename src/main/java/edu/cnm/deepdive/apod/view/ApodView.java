@@ -21,12 +21,12 @@ public class ApodView {
   public String render(Apod apod) {
     return attributesFormat.formatted(
         apod.getDate(),
-        apod.getTitle(),
-        apod.getExplanation(),
+        apod.getTitle().strip(),
+        apod.getExplanation().strip(),
         apod.getMediaType(),
         ifNull(apod.getUrl(), noContent),
         ifNull(apod.getHdurl(), noContent),
-        ifNull(apod.getCopyright(), noContent)
+        ((String) ifNull(apod.getCopyright(), noContent)).strip()
     );
   }
 

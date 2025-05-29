@@ -13,10 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
@@ -33,6 +33,8 @@ public class ApodRetriever implements Callable<Integer> {
 
   private static final Pattern FILENAME_PATTERN = Pattern.compile("^.*/([^/]+\\.([^/.]+))$");
   private static final String PROVIDED_FILENAME_FORMAT = "%1$s.%2$s";
+  private static final String MEDIA_TYPE_WARNING_FORMAT =
+      "The APOD for %s is not an image. Downloading video (or any media type other than image) is not supported.%n";
 
   private final ApodService service;
   private final ApodView view;
@@ -41,11 +43,12 @@ public class ApodRetriever implements Callable<Integer> {
   @Spec
   private CommandSpec spec;
 
+  @SuppressWarnings("FieldMayBeFinal")
   @Parameters(
-      index = "0",
-      description = "date (in YYYY-MM-DD format) of desired Astronomy Picture of the Day"
+      index = "0..1",
+      description = "date (in YYYY-MM-DD format) or date range of desired APOD(s)"
   )
-  private LocalDate date;
+  private LocalDate[] dates = {LocalDate.now()};
 
   @Option(
       names = {"-m", "--mute"},
@@ -93,21 +96,46 @@ public class ApodRetriever implements Callable<Integer> {
   @Override
   public Integer call() {
     try {
-      Apod apod = service.getApod(date);
-      if (!mute) {
-        String representation = view.render(apod);
-        out.println(representation);
-      }
-      if (apod.getMediaType() != MediaType.IMAGE
-          && (stdDefOutput != null || highDefOutput != null)) {
-        throw new ParameterException(spec.commandLine(), "Downloading video (or any media type other than image) is not supported");
-      }
-      downloadImage(stdDefOutput, apod.getUrl());
-      downloadImage(highDefOutput, apod.getHdurl());
+      Apod[] apods = retrieveApods();
+      displayProperties(apods);
+      downloadImages(apods);
       return 0;
     } catch (IOException e) {
       return 1; // FIXME: 5/29/25 Display more information.
     }
+  }
+
+  private void downloadImages(Apod[] apods) throws IOException {
+    if (stdDefOutput != null || highDefOutput != null) {
+      for (Apod apod: apods) {
+        if (apod.getMediaType() != MediaType.IMAGE) {
+          out.printf(MEDIA_TYPE_WARNING_FORMAT, apod.getDate());
+        } else {
+          downloadImage(stdDefOutput, apod.getUrl());
+          downloadImage(highDefOutput, apod.getHdurl());
+        }
+      }
+    }
+  }
+
+  private void displayProperties(Apod[] apods) {
+    if (!mute) {
+      for (Apod apod: apods) {
+        String representation = view.render(apod);
+        out.println(representation);
+      }
+    }
+  }
+
+  private Apod[] retrieveApods() throws IOException {
+    Apod[] apods;
+    if (dates.length == 1) {
+      apods = new Apod[]{service.getApod(dates[0])};
+    } else {
+      Arrays.sort(dates);
+      apods = service.getApods(dates[0], dates[1]);
+    }
+    return apods;
   }
 
   private void downloadImage(String downloadOption, URL imageUrl) throws IOException {
