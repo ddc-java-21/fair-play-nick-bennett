@@ -9,8 +9,8 @@ import picocli.CommandLine;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    System.exit(new CommandLine(
-        new ApodRetriever(new ApodService(), new ApodView(), System.out)).execute(args));
+    new CommandLine(
+        new ApodRetriever(new ApodService(), new ApodView(), System.out)).execute(args);
   }
 
 }

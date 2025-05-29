@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.apod.controller;
 
 import edu.cnm.deepdive.apod.model.Apod;
+import edu.cnm.deepdive.apod.model.Apod.MediaType;
 import edu.cnm.deepdive.apod.service.ApodService;
 import edu.cnm.deepdive.apod.view.ApodView;
 import java.io.IOException;
@@ -15,9 +16,13 @@ import java.time.LocalDate;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Spec;
 
 /**
  * Uses NASA APOD API to retrieve one or more Astronomy Pictures of the Day, displaying the textual
@@ -32,6 +37,9 @@ public class ApodRetriever implements Callable<Integer> {
   private final ApodService service;
   private final ApodView view;
   private final PrintStream out;
+
+  @Spec
+  private CommandSpec spec;
 
   @Parameters(
       index = "0",
@@ -90,13 +98,15 @@ public class ApodRetriever implements Callable<Integer> {
         String representation = view.render(apod);
         out.println(representation);
       }
+      if (apod.getMediaType() != MediaType.IMAGE
+          && (stdDefOutput != null || highDefOutput != null)) {
+        throw new ParameterException(spec.commandLine(), "Downloading video (or any media type other than image) is not supported");
+      }
       downloadImage(stdDefOutput, apod.getUrl());
       downloadImage(highDefOutput, apod.getHdurl());
       return 0;
     } catch (IOException e) {
-      return 1;
-    } catch (RuntimeException e) {
-      return 2;
+      return 1; // FIXME: 5/29/25 Display more information.
     }
   }
 
