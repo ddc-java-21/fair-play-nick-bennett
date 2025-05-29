@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
-import retrofit2.Response;
 
 @Command(name = "apod", requiredOptionMarker = '*', sortSynopsis = false, sortOptions = false)
 public class ApodRetriever implements Callable<Integer> {

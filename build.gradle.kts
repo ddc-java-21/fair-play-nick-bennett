@@ -19,14 +19,22 @@ import java.io.InputStream
 import java.util.Properties
 
 plugins {
-    java
+    application
     jacoco
+    alias(libs.plugins.shadow)
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
     }
+    withJavadocJar()
+    withSourcesJar()
+}
+
+application {
+    applicationName = project.property("launcher") as String
+    mainClass = project.property("mainClass") as String
 }
 
 dependencies {
@@ -59,6 +67,18 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+}
+
+tasks.run.configure {
+    standardInput = System.`in`
+}
+
+tasks.withType(Jar::class.java).configureEach {
+    exclude("**/.keep")
+}
+
+tasks.assemble {
+    dependsOn(tasks.installDist, tasks.installShadowDist)
 }
 
 fun getProperty(filename: String, key: String): String {
