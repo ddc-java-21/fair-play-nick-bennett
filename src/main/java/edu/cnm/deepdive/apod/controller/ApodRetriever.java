@@ -6,6 +6,7 @@ import edu.cnm.deepdive.apod.view.ApodView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,6 +19,10 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+/**
+ * Uses NASA APOD API to retrieve one or more Astronomy Pictures of the Day, displaying the textual
+ * information (by default) and optionally downloading any images.
+ */
 @Command(name = "apod", requiredOptionMarker = '*', sortSynopsis = false, sortOptions = false)
 public class ApodRetriever implements Callable<Integer> {
 
@@ -56,12 +61,27 @@ public class ApodRetriever implements Callable<Integer> {
       names = {"-?", "-h", "--help"}, usageHelp = true, description = "display this help and exit")
   private boolean help;
 
+  /**
+   * Initializes this instance to use the specified {@link ApodService}, {@link ApodView}, and
+   * {@link PrintStream}.
+   *
+   * @param service {@code ApodService} used to communicate with NASA APOD API.
+   * @param view    {@code ApodView} used to render an {@link Apod} instance to a {@code String}.
+   * @param out     {@code PrintStream} to which rendered output is sent.
+   */
   public ApodRetriever(ApodService service, ApodView view, PrintStream out) {
     this.service = service;
     this.view = view;
     this.out = out;
   }
 
+  /**
+   * Retreives {@link Apod} instance from NASA APOD API, prints its attributes, and optionally
+   * downloads the image(s).
+   *
+   * @return Result code, where zero (0) indicates no error, and non-zero indicates some error
+   * condition.
+   */
   @Override
   public Integer call() {
     try {
@@ -70,22 +90,27 @@ public class ApodRetriever implements Callable<Integer> {
         String representation = view.render(apod);
         out.println(representation);
       }
-      if (stdDefOutput != null) {
-        Matcher matcher = FILENAME_PATTERN.matcher(apod.getUrl().toString());
-        if (matcher.matches()) {
-          String stdDefFilename = (stdDefOutput.isBlank())
-              ? matcher.group(1)
-              : PROVIDED_FILENAME_FORMAT.formatted(stdDefOutput, matcher.group(2));
-          Path output = Paths.get(stdDefFilename);
-          InputStream input = service.getImageStream(apod.getUrl());
-          Files.copy(input, output, StandardCopyOption.REPLACE_EXISTING);
-        }
-      }
+      downloadImage(stdDefOutput, apod.getUrl());
+      downloadImage(highDefOutput, apod.getHdurl());
       return 0;
     } catch (IOException e) {
       return 1;
     } catch (RuntimeException e) {
       return 2;
+    }
+  }
+
+  private void downloadImage(String downloadOption, URL imageUrl) throws IOException {
+    if (downloadOption != null) {
+      Matcher matcher = FILENAME_PATTERN.matcher(imageUrl.toString());
+      if (matcher.matches()) {
+        String filename = (downloadOption.isBlank())
+            ? matcher.group(1)
+            : PROVIDED_FILENAME_FORMAT.formatted(downloadOption, matcher.group(2));
+        Path output = Paths.get(filename);
+        InputStream input = service.getImageStream(imageUrl);
+        Files.copy(input, output, StandardCopyOption.REPLACE_EXISTING);
+      }
     }
   }
 
