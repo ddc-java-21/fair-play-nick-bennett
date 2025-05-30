@@ -23,8 +23,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "nasa-apod"
-
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
@@ -33,3 +31,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+rootProject.name = "nasa-apod"
+
+include(":app")

@@ -19,10 +19,10 @@ on:
     paths:
       - '.github/**'
       - 'gradle/**'
-      - 'src/**'
+      - '../../app/src/**'
       - '*.gradle'
       - '*.gradle.kts'
-      - 'gradle.properties'
+      - '../../app/gradle.properties'
 
   workflow_dispatch:
 

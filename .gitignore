@@ -75,7 +75,7 @@ nbdist/
 
 .gradle/
 build/
-src/main/resources/local.properties
+app/src/main/resources/local.properties
 
 !**/src/main/**/build/
 !**/src/test/**/build/

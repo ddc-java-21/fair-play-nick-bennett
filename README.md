@@ -2,4 +2,4 @@
 
 ## Summary
 
-This repository will be used to develop a console-mode and Android-mode client application for the NASA APoD service.
+This branch of this repository will be used to develop an Android client application for the NASA APoD service.
