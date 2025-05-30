@@ -1,5 +1,4 @@
 /*
- *  Copyright 2025 CNM Ingenuity, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,82 +12,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-import java.io.FileInputStream
-import java.io.InputStream
-import java.util.Properties
-
 plugins {
-    application
-    jacoco
-    alias(libs.plugins.shadow)
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-    }
-    withJavadocJar()
-    withSourcesJar()
-}
-
-application {
-    applicationName = project.property("launcher") as String
-    mainClass = project.property("mainClass") as String
-}
-
-dependencies {
-
-    implementation(libs.gson)
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.logging.interceptor)
-    implementation(libs.picocli)
-    implementation(libs.picocli.annotation.processor)
-
-    testImplementation(libs.junit.aggregator)
-    testRuntimeOnly(libs.junit.engine)
-    testRuntimeOnly(libs.junit.platform)
-}
-
-tasks.javadoc {
-    with(options as StandardJavadocDocletOptions) {
-        links("https://docs.oracle.com/en/java/javase/${libs.versions.java.get()}/docs/api/")
-    }
-}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events.addAll(setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED))
-    }
-    finalizedBy(tasks.jacocoTestReport)
-}
-
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-}
-
-tasks.run.configure {
-    standardInput = System.`in`
-}
-
-tasks.withType(Jar::class.java).configureEach {
-    exclude("**/.keep")
-}
-
-tasks.assemble {
-    dependsOn(tasks.installDist, tasks.installShadowDist)
-}
-
-fun getProperty(filename: String, key: String): String {
-    return FileInputStream(filename).use {
-        val props = Properties()
-        props.load(it)
-        props.getProperty(key)!!
-    }
-}
-
-fun getLocalProperty(key: String): String {
-    return getProperty("local.properties", key)
+    alias(libs.plugins.android.application).apply(false)
+    alias(libs.plugins.hilt).apply(false)
+    alias(libs.plugins.navigation.safeargs).apply(false)
+    alias(libs.plugins.junit).apply(false)
 }
