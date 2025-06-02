@@ -1,42 +1,29 @@
 package edu.cnm.deepdive.apod.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.model.Apod;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.net.URL;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.logging.HttpLoggingInterceptor.Level;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApodService {
 
+  @SuppressLint("StaticFieldLeak")
   private static Context context;
 
   private final ApodProxy proxy;
   private final String apiKey;
   private final Scheduler scheduler;
 
-  public ApodService() throws IOException {
+  private ApodService() throws IOException {
     proxy = ApodProxy.getInstance();
     apiKey = context.getString(R.string.api_key);
     scheduler = Schedulers.io();
@@ -46,16 +33,40 @@ public class ApodService {
     ApodService.context = context;
   }
 
-  public Single<Apod> getApod(LocalDate date) throws IOException {
+  public Single<Apod> getApod(LocalDate date) {
     return proxy
         .get(date, apiKey)
         .subscribeOn(scheduler);
   }
 
-  public Single<Apod[]> getApods(LocalDate startDate, LocalDate endDate) throws IOException {
+  public Single<List<Apod>> getApods(LocalDate startDate, LocalDate endDate) {
     return proxy
         .get(startDate, endDate, apiKey)
-        .subscribeOn(scheduler);
+        .subscribeOn(scheduler)
+        .map(apods -> {
+          List<Apod> result = new LinkedList<>();
+          Collections.addAll(result, apods);
+          return result;
+        });
+  }
+
+  public static ApodService getInstance() {
+    return Holder.INSTANCE;
+  }
+
+  private static class Holder {
+
+    @SuppressLint("StaticFieldLeak")
+    private static final ApodService INSTANCE;
+
+    static {
+      try {
+        INSTANCE = new ApodService();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
   }
 
 }
