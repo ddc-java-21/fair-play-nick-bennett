@@ -10,9 +10,11 @@ import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ApodService {
 
@@ -43,11 +45,7 @@ public class ApodService {
     return proxy
         .get(startDate, endDate, apiKey)
         .subscribeOn(scheduler)
-        .map(apods -> {
-          List<Apod> result = new LinkedList<>();
-          Collections.addAll(result, apods);
-          return result;
-        });
+        .map(Arrays::asList);
   }
 
   public static ApodService getInstance() {

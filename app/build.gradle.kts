@@ -109,6 +109,7 @@ dependencies {
 
     // Hilt dependency-injection library and annotation processor
     implementation(libs.hilt.android.core)
+    implementation(libs.activity)
     annotationProcessor(libs.hilt.compiler)
 
     // OkHttp logging dependency

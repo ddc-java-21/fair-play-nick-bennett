@@ -3,17 +3,18 @@ package edu.cnm.deepdive.apod.viewmodel;
 import android.app.Application;
 import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.service.ApodService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import java.time.LocalDate;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
-public class ApodViewModel extends AndroidViewModel {
+public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
   private static final String TAG = ApodViewModel.class.getSimpleName();
 
@@ -64,6 +65,12 @@ public class ApodViewModel extends AndroidViewModel {
             this::postThrowable,
             pending
         );
+  }
+
+  @Override
+  public void onStop(@NotNull LifecycleOwner owner) {
+    pending.clear();
+    DefaultLifecycleObserver.super.onStop(owner);
   }
 
   private void postThrowable(Throwable throwable) {
