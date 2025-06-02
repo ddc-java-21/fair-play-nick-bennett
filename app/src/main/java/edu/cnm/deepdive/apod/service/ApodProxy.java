@@ -19,6 +19,7 @@ import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -57,13 +58,14 @@ public interface ApodProxy {
           .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
           .create();
       Interceptor loggingInterceptor = new HttpLoggingInterceptor()
-          .setLevel(Level.NONE);
+          .setLevel(Level.BODY);
       OkHttpClient client = new OkHttpClient.Builder()
           .addInterceptor(loggingInterceptor)
           .build();
       INSTANCE = new Retrofit.Builder()
           .client(client)
           .addConverterFactory(GsonConverterFactory.create(gson))
+          .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
           .baseUrl(contexts[0].getString(R.string.base_url))
           .build()
           .create(ApodProxy.class);
