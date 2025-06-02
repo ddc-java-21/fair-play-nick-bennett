@@ -1,11 +1,13 @@
 package edu.cnm.deepdive.apod.service;
 
+import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.model.Apod;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
@@ -28,28 +30,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApodService {
 
+  private static Context context;
+
   private final ApodProxy proxy;
   private final String apiKey;
   private final Scheduler scheduler;
 
   public ApodService() throws IOException {
-    Gson gson = new GsonBuilder()
-        .excludeFieldsWithoutExposeAnnotation()
-        .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
-        .create();
-    Interceptor loggingInterceptor = new HttpLoggingInterceptor()
-        .setLevel(Level.NONE);
-    OkHttpClient client = new OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build();
-    proxy = new Retrofit.Builder()
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .baseUrl(getLocalProperty("base_url"))
-        .build()
-        .create(ApodProxy.class);
-    apiKey = getLocalProperty("api_key"); // FIXME: 6/2/25 Read from string resources.
+    proxy = ApodProxy.getInstance();
+    apiKey = context.getString(R.string.api_key);
     scheduler = Schedulers.io();
+  }
+
+  public static void setContext(Context context) {
+    ApodService.context = context;
   }
 
   public Single<Apod> getApod(LocalDate date) throws IOException {
@@ -62,16 +56,6 @@ public class ApodService {
     return proxy
         .get(startDate, endDate, apiKey)
         .subscribeOn(scheduler);
-  }
-
-  private static class LocalDateDeserializer implements JsonDeserializer<LocalDate> {
-
-    @Override
-    public LocalDate deserialize(JsonElement jsonElement, Type type,
-        JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-      return LocalDate.parse(jsonElement.getAsString());
-    }
-
   }
 
 }
