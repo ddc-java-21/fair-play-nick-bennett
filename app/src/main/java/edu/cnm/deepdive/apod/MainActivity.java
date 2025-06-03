@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import edu.cnm.deepdive.apod.adapter.ApodAdapter;
 import edu.cnm.deepdive.apod.databinding.ActivityMainBinding;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
@@ -33,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
     viewModel = new ViewModelProvider(this)
         .get(ApodViewModel.class);
-    viewModel.fetch(LocalDate.now());
+    LocalDate today = LocalDate.now();
+    viewModel.fetch(today.minusMonths(1), today);
     viewModel
-        .getApod()
-        .observe(this, (apod) ->
-            Log.d(TAG, apod.getTitle()));
+        .getApods()
+        .observe(this, (apods) -> binding.apods.setAdapter(new ApodAdapter(this, apods)));
   }
 
 
