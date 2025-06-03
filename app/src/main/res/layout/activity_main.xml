@@ -9,7 +9,7 @@
   tools:context=".MainActivity">
 
 
-  <TextView
+  <ImageView
     android:id="@+id/thumbnail_header"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -17,11 +17,11 @@
     android:layout_marginEnd="@dimen/half_dynamic_spacing"
     android:layout_marginBottom="@dimen/half_dynamic_spacing"
     android:layout_marginStart="@dimen/full_dynamic_spacing"
+    android:src="@drawable/image_thumbnail"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toStartOf="@id/title_header"
-    app:layout_constraintHorizontal_weight="@integer/thumbnail_weight"
-    tools:text="Thumbnail"/>
+    app:layout_constraintHorizontal_weight="@integer/thumbnail_weight"/>
 
   <TextView
     android:id="@+id/title_header"
@@ -50,5 +50,22 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_weight="@integer/date_weight"
     android:text="@string/date_header"/>
+
+  <androidx.constraintlayout.widget.Barrier
+    android:id="@+id/header_barrier"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:barrierDirection="bottom"
+    app:constraint_referenced_ids="thumbnail_header,title_header,date_header"/>
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/apods"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintTop_toBottomOf="@id/header_barrier"
+    app:layout_constraintBottom_toBottomOf="parent"
+    tools:listitem="@layout/item_apod"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
