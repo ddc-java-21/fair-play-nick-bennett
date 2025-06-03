@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.apod.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.apod.databinding.ItemApodBinding;
 import edu.cnm.deepdive.apod.model.Apod;
+import edu.cnm.deepdive.apod.model.Apod.MediaType;
+import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
@@ -58,7 +62,11 @@ public class ApodAdapter extends Adapter<ViewHolder> {
     void bind(int position, Apod apod) {
       binding.title.setText(apod.getTitle());
       binding.date.setText(formatter.format(apod.getDate()));
-      // TODO: 6/3/25 Set content of binding.thumbnail
+      if (apod.getMediaType() == MediaType.IMAGE) {
+        Picasso.get()
+            .load(Uri.parse(apod.getUrl().toString()))
+            .into(binding.thumbnail);
+      }
     }
 
   }

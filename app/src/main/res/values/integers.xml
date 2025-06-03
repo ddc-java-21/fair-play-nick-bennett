@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <integer name="thumbnail_weight">5</integer>
+  <integer name="thumbnail_weight">4</integer>
   <integer name="title_weight">4</integer>
   <integer name="date_weight">3</integer>
+  <integer name="info_weight">1</integer>
 </resources>

@@ -1,4 +1,5 @@
 <resources>
   <string name="title_header">Title</string>
   <string name="date_header">Date</string>
+  <string name="info_description">Show details</string>
 </resources>

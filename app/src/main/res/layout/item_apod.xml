@@ -34,9 +34,19 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginVertical="@dimen/half_dynamic_spacing"
-    android:layout_marginStart="@dimen/half_dynamic_spacing"
-    android:layout_marginEnd="@dimen/full_dynamic_spacing"
+    android:layout_marginHorizontal="@dimen/half_dynamic_spacing"
     android:layout_weight="@integer/date_weight"
     tools:text="2025-06-03"/>
+
+  <ImageButton
+    android:id="@+id/info"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/half_dynamic_spacing"
+    android:layout_marginStart="@dimen/half_dynamic_spacing"
+    android:layout_marginEnd="@dimen/full_dynamic_spacing"
+    android:src="@android:drawable/ic_dialog_info"
+    android:layout_weight="@integer/info_weight"
+    android:contentDescription="@string/info_description"/>
 
 </LinearLayout>
