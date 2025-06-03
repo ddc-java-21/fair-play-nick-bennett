@@ -8,6 +8,47 @@
   android:layout_height="match_parent"
   tools:context=".MainActivity">
 
-<!--  TODO Add widgets to display APoD instance(s).-->
+
+  <TextView
+    android:id="@+id/thumbnail_header"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/full_dynamic_spacing"
+    android:layout_marginEnd="@dimen/half_dynamic_spacing"
+    android:layout_marginBottom="@dimen/half_dynamic_spacing"
+    android:layout_marginStart="@dimen/full_dynamic_spacing"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/title_header"
+    app:layout_constraintHorizontal_weight="@integer/thumbnail_weight"
+    tools:text="Thumbnail"/>
+
+  <TextView
+    android:id="@+id/title_header"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/full_dynamic_spacing"
+    android:layout_marginEnd="@dimen/half_dynamic_spacing"
+    android:layout_marginBottom="@dimen/half_dynamic_spacing"
+    android:layout_marginStart="@dimen/half_dynamic_spacing"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toEndOf="@id/thumbnail_header"
+    app:layout_constraintEnd_toStartOf="@id/date_header"
+    app:layout_constraintHorizontal_weight="@integer/title_weight"
+    android:text="@string/title_header"/>
+
+  <TextView
+    android:id="@+id/date_header"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/full_dynamic_spacing"
+    android:layout_marginEnd="@dimen/half_dynamic_spacing"
+    android:layout_marginBottom="@dimen/half_dynamic_spacing"
+    android:layout_marginStart="@dimen/half_dynamic_spacing"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toEndOf="@id/title_header"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_weight="@integer/date_weight"
+    android:text="@string/date_header"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

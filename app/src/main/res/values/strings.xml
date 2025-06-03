@@ -1,2 +1,4 @@
 <resources>
+  <string name="title_header">Title</string>
+  <string name="date_header">Date</string>
 </resources>
