@@ -31,6 +31,9 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     apodService = ApodService.getInstance();
+    LocalDate today = LocalDate.now();
+    LocalDate lastMonth = today.minusMonths(1);
+    fetch(lastMonth, today);
   }
 
   public LiveData<Apod> getApod() {
