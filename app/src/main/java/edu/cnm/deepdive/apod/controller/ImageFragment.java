@@ -7,26 +7,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import edu.cnm.deepdive.apod.adapter.ApodAdapter;
-import edu.cnm.deepdive.apod.databinding.FragmentListBinding;
-import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
-import java.util.List;
+import java.time.LocalDate;
 
-public class ListFragment extends Fragment {
+public class ImageFragment extends Fragment {
 
-  private FragmentListBinding binding;
   private ApodViewModel viewModel;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+     
+  }
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    binding = FragmentListBinding.inflate(inflater, container, false);
-    // TODO: 6/4/25 Attach event listeners to view widgets.
-    return binding.getRoot();
+    // TODO: 6/4/25 Inflate view from layout using binding class; attach event listeners. 
+    return super.onCreateView(inflater, container, savedInstanceState);
   }
 
   @Override
@@ -34,15 +34,17 @@ public class ListFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
     viewModel
-        .getApods()
-        .observe(getViewLifecycleOwner(),
-            (apods) -> binding.apods.setAdapter(new ApodAdapter(requireContext(), apods)));
+        .getApod()
+        .observe(getViewLifecycleOwner(), (apod) -> {
+          // TODO: 6/4/25 Display image from apod. 
+        });
+    viewModel.fetch(ImageFragmentArgs.fromBundle(getArguments()).getDate());
   }
 
   @Override
   public void onDestroyView() {
-    binding = null;
+    // TODO: 6/4/25 Release reference to binding object. 
     super.onDestroyView();
   }
-
+  
 }
