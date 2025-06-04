@@ -22,12 +22,33 @@
 
     </action>
 
+    <action
+      android:id="@+id/display_video"
+      app:destination="@id/video_fragment">
+
+      <argument
+        android:name="date"
+        app:argType="java.time.LocalDate"/>
+
+    </action>
+
   </fragment>
 
   <fragment
     android:id="@+id/image_fragment"
     android:name="edu.cnm.deepdive.apod.controller.ImageFragment"
     tools:layout="@layout/fragment_image">
+
+    <argument
+      android:name="date"
+      app:argType="java.time.LocalDate"/>
+
+  </fragment>
+
+  <fragment
+    android:id="@+id/video_fragment"
+    android:name="edu.cnm.deepdive.apod.controller.VideoFragment"
+    tools:layout="@layout/fragment_video">
 
     <argument
       android:name="date"

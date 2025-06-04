@@ -10,6 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import com.google.android.material.snackbar.Snackbar;
+import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.adapter.ApodAdapter;
 import edu.cnm.deepdive.apod.databinding.FragmentListBinding;
 import edu.cnm.deepdive.apod.model.Apod;
@@ -41,11 +45,28 @@ public class ListFragment extends Fragment {
         .observe(getViewLifecycleOwner(),
             (apods) -> {
               ApodAdapter adapter = new ApodAdapter(requireContext(), apods,
-                  (apod, pos) -> Log.d(TAG, "Thumbnail clicked for " + apod.getDate()),
+                  (apod, pos) -> navigateToMedia(apod),
                   (apod, pos) -> Log.d(TAG, "Info clicked for " + apod.getDate())
               );
               binding.apods.setAdapter(adapter);
             });
+  }
+
+  private void navigateToMedia(Apod apod) {
+    if (apod.getMediaType() == null) {
+      Snackbar.make(
+              binding.getRoot(), R.string.no_media_display, Snackbar.LENGTH_LONG)
+          .show();
+    } else {
+      NavController navController = Navigation.findNavController(
+          binding.getRoot());
+      switch (apod.getMediaType()) {
+        case IMAGE -> navController
+            .navigate(ListFragmentDirections.displayImage(apod.getDate()));
+        case VIDEO -> navController
+            .navigate(ListFragmentDirections.displayVideo(apod.getDate()));
+      }
+    }
   }
 
   @Override
