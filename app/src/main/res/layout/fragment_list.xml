@@ -17,6 +17,7 @@
     android:layout_marginEnd="@dimen/half_dynamic_spacing"
     android:layout_marginBottom="@dimen/half_dynamic_spacing"
     android:layout_marginStart="@dimen/full_dynamic_spacing"
+    android:contentDescription="@string/thumbnail_description"
     android:src="@drawable/image_thumbnail"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -50,18 +51,20 @@
     app:layout_constraintHorizontal_weight="@integer/date_weight"
     android:text="@string/date_header"/>
 
-  <View
+  <ImageView
     android:id="@+id/info_header"
-    android:layout_width="0dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/full_dynamic_spacing"
     android:layout_marginBottom="@dimen/half_dynamic_spacing"
     android:layout_marginStart="@dimen/half_dynamic_spacing"
     android:layout_marginEnd="@dimen/full_dynamic_spacing"
+    android:importantForAccessibility="no"
+    android:src="@drawable/info"
+    android:visibility="invisible"
     app:layout_constraintHorizontal_weight="@integer/info_weight"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@id/date_header"/>
+    app:layout_constraintEnd_toEndOf="parent"/>
 
 
   <androidx.constraintlayout.widget.Barrier

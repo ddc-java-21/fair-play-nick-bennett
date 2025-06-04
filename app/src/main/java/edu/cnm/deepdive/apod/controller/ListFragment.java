@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.apod.controller;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
 import java.util.List;
 
 public class ListFragment extends Fragment {
+
+  private static final String TAG = ListFragment.class.getSimpleName();
 
   private FragmentListBinding binding;
   private ApodViewModel viewModel;
@@ -36,7 +39,13 @@ public class ListFragment extends Fragment {
     viewModel
         .getApods()
         .observe(getViewLifecycleOwner(),
-            (apods) -> binding.apods.setAdapter(new ApodAdapter(requireContext(), apods)));
+            (apods) -> {
+              ApodAdapter adapter = new ApodAdapter(requireContext(), apods,
+                  (apod, pos) -> Log.d(TAG, "Thumbnail clicked for " + apod.getDate()),
+                  (apod, pos) -> Log.d(TAG, "Info clicked for " + apod.getDate())
+              );
+              binding.apods.setAdapter(adapter);
+            });
   }
 
   @Override
