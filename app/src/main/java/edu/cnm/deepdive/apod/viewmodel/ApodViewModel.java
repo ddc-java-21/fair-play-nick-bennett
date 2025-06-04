@@ -40,6 +40,10 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
     return apod;
   }
 
+  public void setApod(Apod apod) {
+    this.apod.setValue(apod);
+  }
+
   public LiveData<List<Apod>> getApods() {
     return apods;
   }

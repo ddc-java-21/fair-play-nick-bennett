@@ -46,7 +46,6 @@ public class VideoFragment extends Fragment {
     viewModel
         .getApod()
         .observe(getViewLifecycleOwner(), (apod) -> webView.loadUrl(apod.getUrl().toString()));
-    viewModel.fetch(VideoFragmentArgs.fromBundle(getArguments()).getDate());
   }
 
   @Override

@@ -58,13 +58,12 @@ public class ListFragment extends Fragment {
               binding.getRoot(), R.string.no_media_display, Snackbar.LENGTH_LONG)
           .show();
     } else {
+      viewModel.setApod(apod);
       NavController navController = Navigation.findNavController(
           binding.getRoot());
       switch (apod.getMediaType()) {
-        case IMAGE -> navController
-            .navigate(ListFragmentDirections.displayImage(apod.getDate()));
-        case VIDEO -> navController
-            .navigate(ListFragmentDirections.displayVideo(apod.getDate()));
+        case IMAGE -> navController.navigate(ListFragmentDirections.displayImage());
+        case VIDEO -> navController.navigate(ListFragmentDirections.displayVideo());
       }
     }
   }
