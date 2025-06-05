@@ -8,17 +8,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import edu.cnm.deepdive.apod.databinding.FragmentInfoBinding;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
 
 public class InfoFragment extends BottomSheetDialogFragment {
 
+  private FragmentInfoBinding binding;
   private ApodViewModel viewModel;
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    return super.onCreateView(inflater, container, savedInstanceState);
+    binding = FragmentInfoBinding.inflate(inflater, container, false);
+    return binding.getRoot();
   }
 
   @Override
@@ -28,6 +31,8 @@ public class InfoFragment extends BottomSheetDialogFragment {
     viewModel
         .getApod()
         .observe(getViewLifecycleOwner(), (apod) -> {
+          binding.title.setText(apod.getTitle().strip());
+          binding.description.setText(apod.getExplanation().strip());
           // TODO: 6/5/25 Populate view widgets with data from apod.
         });
   }

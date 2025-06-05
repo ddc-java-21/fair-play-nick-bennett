@@ -20,6 +20,10 @@
       android:id="@+id/display_video"
       app:destination="@id/video_fragment"/>
 
+    <action
+      android:id="@+id/display_info"
+      app:destination="@id/info_fragment"/>
+
   </fragment>
 
   <fragment
@@ -31,5 +35,10 @@
     android:id="@+id/video_fragment"
     android:name="edu.cnm.deepdive.apod.controller.VideoFragment"
     tools:layout="@layout/fragment_video"/>
+
+  <dialog
+    android:id="@+id/info_fragment"
+    android:name="edu.cnm.deepdive.apod.controller.InfoFragment"
+    tools:layout="@layout/fragment_info"/>
 
 </navigation>

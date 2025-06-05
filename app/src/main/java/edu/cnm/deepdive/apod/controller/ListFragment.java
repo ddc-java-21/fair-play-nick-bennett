@@ -1,14 +1,12 @@
 package edu.cnm.deepdive.apod.controller;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,7 +16,6 @@ import edu.cnm.deepdive.apod.adapter.ApodAdapter;
 import edu.cnm.deepdive.apod.databinding.FragmentListBinding;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
-import java.util.List;
 
 public class ListFragment extends Fragment {
 
@@ -46,10 +43,22 @@ public class ListFragment extends Fragment {
             (apods) -> {
               ApodAdapter adapter = new ApodAdapter(requireContext(), apods,
                   (apod, pos) -> navigateToMedia(apod),
-                  (apod, pos) -> Log.d(TAG, "Info clicked for " + apod.getDate())
+                  (apod, pos) -> navigateToInfo(apod)
               );
               binding.apods.setAdapter(adapter);
             });
+  }
+
+  @Override
+  public void onDestroyView() {
+    binding = null;
+    super.onDestroyView();
+  }
+
+  private void navigateToInfo(Apod apod) {
+    viewModel.setApod(apod);
+    Navigation.findNavController(binding.getRoot())
+        .navigate(ListFragmentDirections.displayInfo());
   }
 
   private void navigateToMedia(Apod apod) {
@@ -66,12 +75,6 @@ public class ListFragment extends Fragment {
         case VIDEO -> navController.navigate(ListFragmentDirections.displayVideo());
       }
     }
-  }
-
-  @Override
-  public void onDestroyView() {
-    binding = null;
-    super.onDestroyView();
   }
 
 }
