@@ -4,4 +4,6 @@
   <string name="info_description">Show details</string>
   <string name="thumbnail_description">Thumbnail</string>
   <string name="no_media_display">Unable to display media for selected APOD</string>
+  <string name="title_label">Title</string>
+  <string name="description_label">Description</string>
 </resources>
