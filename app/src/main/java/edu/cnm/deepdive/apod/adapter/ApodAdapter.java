@@ -18,8 +18,14 @@ import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ApodAdapter extends Adapter<ViewHolder> {
+
+  private static final Pattern YOUTUBE_URL =
+      Pattern.compile("^(?:https?://)?(?:www\\.)?(?:youtube\\.com/(?:watch\\?v=|embed/|v/)|youtu\\.be/)([a-zA-Z0-9_-]{11})(?:\\S+)?$");
+  private static final String YOUTUBE_THUMBNAIL_URL = "https://img.youtube.com/vi/%s/0.jpg";
 
   private final List<Apod> apods;
   private final OnApodClickListener onThumbnailClickListener;
@@ -67,20 +73,36 @@ public class ApodAdapter extends Adapter<ViewHolder> {
     void bind(int position, Apod apod) {
       binding.title.setText(apod.getTitle());
       binding.date.setText(formatter.format(apod.getDate()));
-      if (apod.getMediaType() == MediaType.IMAGE) {
-        Picasso.get()
-            .load(Uri.parse(apod.getUrl().toString()))
-            .into(binding.thumbnail);
-        binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
-      } else {
-        // TODO: 6/4/25 Load video thumbnail for Youtube video.
-        binding.thumbnail.setImageResource(R.drawable.video_camera);
-        binding.mediaTypeThumbnail.setImageResource(R.drawable.video_camera);
-      }
-      binding.thumbnail.setContentDescription(apod.getTitle()); // TODO: 6/4/25 Include more info.
+      binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
+      binding.thumbnail.setContentDescription(apod.getTitle());
       binding.thumbnail.setOnClickListener(
           (v) -> onThumbnailClickListener.onApodClick(apod, position));
       binding.info.setOnClickListener((v) -> onInfoClickListener.onApodClick(apod, position));
+      MediaType mediaType = apod.getMediaType();
+      if (mediaType == MediaType.IMAGE) {
+        loadThumbnail(apod.getUrl().toString());
+        binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
+      } else if (mediaType == MediaType.VIDEO) {
+        Matcher matcher = YOUTUBE_URL.matcher(apod.getUrl().toString());
+        if (matcher.matches()) {
+          String videoId = matcher.group(1);
+          String thumbnailUrl = String.format(YOUTUBE_THUMBNAIL_URL, videoId);
+          loadThumbnail(thumbnailUrl);
+          binding.mediaTypeThumbnail.setImageResource(R.drawable.video_camera);
+        } else {
+          binding.thumbnail.setImageResource(R.drawable.video_camera);
+          binding.mediaTypeThumbnail.setVisibility(View.GONE);
+        }
+      } else {
+        binding.thumbnail.setImageResource(R.drawable.image_not_supported);
+        binding.mediaTypeThumbnail.setVisibility(View.GONE);
+      }
+    }
+
+    private void loadThumbnail(String apod) {
+      Picasso.get()
+          .load(Uri.parse(apod))
+          .into(binding.thumbnail);
     }
 
   }

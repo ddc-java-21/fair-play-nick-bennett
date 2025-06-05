@@ -5,56 +5,64 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import edu.cnm.deepdive.apod.R;
+import edu.cnm.deepdive.apod.databinding.FragmentVideoBinding;
+import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
 
 public class VideoFragment extends Fragment {
 
-  private WebView webView;
-  private ApodViewModel viewModel;
+  private FragmentVideoBinding binding;
 
   @SuppressLint("SetJavaScriptEnabled")
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    webView = (WebView) inflater.inflate(R.layout.fragment_video, container, false);
-    webView.setWebViewClient(new Client());
-    WebSettings settings = webView.getSettings();
+    binding = FragmentVideoBinding.inflate(inflater, container, false);
+    binding.content.setWebViewClient(new Client());
+    WebSettings settings = binding.content.getSettings();
     settings.setJavaScriptEnabled(true);
     settings.setSupportZoom(true);
     settings.setBuiltInZoomControls(true);
     settings.setDisplayZoomControls(false);
     settings.setUseWideViewPort(true);
     settings.setLoadWithOverviewMode(true);
-    return webView;
+    return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
+    ApodViewModel viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
     viewModel
         .getApod()
-        .observe(getViewLifecycleOwner(), (apod) -> webView.loadUrl(apod.getUrl().toString()));
+        .observe(getViewLifecycleOwner(), this::displayApod);
   }
 
   @Override
   public void onDestroyView() {
-    webView = null;
+    binding = null;
     super.onDestroyView();
   }
 
-  private static class Client extends WebViewClient {
+  private void displayApod(Apod apod) {
+    //noinspection DataFlowIssue
+    ((AppCompatActivity) requireActivity())
+        .getSupportActionBar()
+        .setTitle(apod.getTitle());
+    binding.content.loadUrl(apod.getUrl().toString());
+  }
+
+  private class Client extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -64,7 +72,7 @@ public class VideoFragment extends Fragment {
     @Override
     public void onPageFinished(WebView view, String url) {
       super.onPageFinished(view, url);
-      // TODO: 6/4/25 Cleanup UI (e.g., loading indicator).
+      binding.loadingIndicator.setVisibility(View.GONE);
     }
   }
 
