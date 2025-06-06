@@ -3,6 +3,9 @@ package edu.cnm.deepdive.apod.controller;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
@@ -12,13 +15,17 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle.State;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.databinding.FragmentVideoBinding;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
 
-public class VideoFragment extends Fragment {
+public class VideoFragment extends Fragment implements MenuProvider {
 
   private FragmentVideoBinding binding;
 
@@ -36,6 +43,7 @@ public class VideoFragment extends Fragment {
     settings.setDisplayZoomControls(false);
     settings.setUseWideViewPort(true);
     settings.setLoadWithOverviewMode(true);
+    requireActivity().addMenuProvider(this, getViewLifecycleOwner(), State.RESUMED);
     return binding.getRoot();
   }
 
@@ -52,6 +60,22 @@ public class VideoFragment extends Fragment {
   public void onDestroyView() {
     binding = null;
     super.onDestroyView();
+  }
+
+  @Override
+  public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+    menuInflater.inflate(R.menu.detail_actions, menu);
+  }
+
+  @Override
+  public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+    boolean handled = false;
+    if (menuItem.getItemId() == R.id.show_info) {
+      handled = true;
+      Navigation.findNavController(binding.getRoot())
+          .navigate(ImageFragmentDirections.displayInfo());
+    }
+    return handled;
   }
 
   private void displayApod(Apod apod) {

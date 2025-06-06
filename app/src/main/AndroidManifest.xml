@@ -10,6 +10,8 @@
     android:name=".ApodApplication"
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
+    android:icon="@mipmap/launcher"
+    android:roundIcon="@mipmap/launcher_round"
     tools:ignore="AllowBackup,DataExtractionRules">
 
     <activity

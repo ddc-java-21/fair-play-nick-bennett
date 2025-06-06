@@ -40,7 +40,13 @@
   <fragment
     android:id="@+id/video_fragment"
     android:name="edu.cnm.deepdive.apod.controller.VideoFragment"
-    tools:layout="@layout/fragment_video"/>
+    tools:layout="@layout/fragment_video">
+
+    <action
+      android:id="@+id/display_info"
+      app:destination="@id/info_fragment"/>
+
+  </fragment>
 
   <dialog
     android:id="@+id/info_fragment"
