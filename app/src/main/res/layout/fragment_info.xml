@@ -7,13 +7,25 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:padding="@dimen/half_dynamic_spacing">
 
+  <TextView
+    android:id="@+id/date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/half_dynamic_spacing"
+    android:layout_marginHorizontal="@dimen/full_dynamic_spacing"
+    android:paddingHorizontal="@dimen/half_dynamic_spacing"
+    style="@style/InfoDate"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:text="2025-06-06"/>
+
   <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/title_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/half_dynamic_spacing"
     app:hintEnabled="true"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toBottomOf="@id/date">
 
     <com.google.android.material.textfield.TextInputEditText
       android:id="@+id/title"
@@ -40,10 +52,31 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:inputType="textMultiLine"
+      android:maxLines="@integer/max_description_lines"
       android:editable="false"
       android:focusable="false"
       android:hint="@string/description_label"
       tools:text="This is a galaxy far, far away, whose light started long ago."/>
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/copyright_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/half_dynamic_spacing"
+    app:hintEnabled="true"
+    app:layout_constraintTop_toBottomOf="@id/description_layout">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/copyright"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="none"
+      android:editable="false"
+      android:focusable="false"
+      android:hint="@string/copyright_label"
+      tools:text="Some photographer"/>
 
   </com.google.android.material.textfield.TextInputLayout>
 

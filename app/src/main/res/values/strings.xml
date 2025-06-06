@@ -6,4 +6,6 @@
   <string name="no_media_display">Unable to display media for selected APOD</string>
   <string name="title_label">Title</string>
   <string name="description_label">Description</string>
+  <string name="copyright_label">Copyright</string>
+  <string name="details_title">Details</string>
 </resources>

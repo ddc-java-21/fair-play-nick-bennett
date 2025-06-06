@@ -4,4 +4,5 @@
   <integer name="title_weight">4</integer>
   <integer name="date_weight">3</integer>
   <integer name="info_weight">1</integer>
+  <integer name="max_description_lines">10</integer>
 </resources>

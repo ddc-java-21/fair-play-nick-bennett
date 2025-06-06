@@ -29,7 +29,13 @@
   <fragment
     android:id="@+id/image_fragment"
     android:name="edu.cnm.deepdive.apod.controller.ImageFragment"
-    tools:layout="@layout/fragment_image"/>
+    tools:layout="@layout/fragment_image">
+
+    <action
+      android:id="@+id/display_info"
+      app:destination="@id/info_fragment"/>
+
+  </fragment>
 
   <fragment
     android:id="@+id/video_fragment"
