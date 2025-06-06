@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,7 +39,7 @@ public interface ApodProxy {
       @Query("api_key") String apiKey);
 
   @GET
-  Single<ResponseBody> download(@Url String url);
+  Call<ResponseBody> download(@Url String url);
 
   static ApodProxy getInstance() {
     return Holder.INSTANCE;

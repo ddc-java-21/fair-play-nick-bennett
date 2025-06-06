@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.model.Apod;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleEmitter;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
@@ -15,6 +17,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 public class ApodService {
 
@@ -46,6 +50,22 @@ public class ApodService {
         .get(startDate, endDate, apiKey)
         .subscribeOn(scheduler)
         .map(Arrays::asList);
+  }
+
+  public Completable downloadImage(Apod apod) {
+    return
+        Single.create((SingleEmitter<ResponseBody> emitter) -> {
+          Response<ResponseBody> response = proxy.download(apod.getHdurl().toString()).execute();
+          if (response.isSuccessful()) {
+            // TODO: 6/6/25 Save file in gallery.
+
+            emitter.onSuccess(response.body());
+          } else {
+            emitter.onError(new IOException(response.message()));
+          }
+        })
+        .subscribeOn(scheduler)
+        .ignoreElement();
   }
 
   public static ApodService getInstance() {
