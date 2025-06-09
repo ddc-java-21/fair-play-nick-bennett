@@ -14,6 +14,9 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableEmitter;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleEmitter;
+import io.reactivex.rxjava3.core.SingleOnSubscribe;
+import io.reactivex.rxjava3.core.SingleSource;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,22 +63,22 @@ public class ApodService {
         .map(Arrays::asList);
   }
 
-  public Completable downloadImage(String title, URL url) {
-    return Completable.create((CompletableEmitter emitter) -> {
-      Response<ResponseBody> response = proxy.download(url.toString()).execute();
-      if (response.isSuccessful()) {
-        ContentResolver resolver = context.getContentResolver();
-        Uri uri = addEntry(title, response, resolver);
-        if (uri != null) {
-          writeFileFromResponse(emitter, response, resolver, uri);
-        } else {
-          emitter.onError(new RuntimeException());
-        }
-      } else {
-        emitter.onError(new IOException(response.message()));
-      }
-      emitter.onComplete();
-    })
+  public Single<Uri> downloadImage(String title, URL url) {
+    return Single.create((SingleEmitter<Uri> emitter) -> {
+          Response<ResponseBody> response = proxy.download(url.toString()).execute();
+          if (response.isSuccessful()) {
+            ContentResolver resolver = context.getContentResolver();
+            Uri uri = addEntry(title, response, resolver);
+            if (uri != null) {
+              writeFileFromResponse(emitter, response, resolver, uri);
+              emitter.onSuccess(uri);
+            } else {
+              emitter.onError(new RuntimeException());
+            }
+          } else {
+            emitter.onError(new IOException(response.message()));
+          }
+        })
         .subscribeOn(scheduler);
   }
 
@@ -83,12 +86,12 @@ public class ApodService {
     return Holder.INSTANCE;
   }
 
-  private static void writeFileFromResponse(CompletableEmitter emitter, Response<ResponseBody> response,
-      ContentResolver resolver, Uri uri) {
+  private static void writeFileFromResponse(SingleEmitter<Uri> emitter,
+      Response<ResponseBody> response, ContentResolver resolver, Uri uri) {
     //noinspection DataFlowIssue
     try (
         ResponseBody responseBody = response.body();
-        InputStream input =  responseBody.byteStream();
+        InputStream input = responseBody.byteStream();
         OutputStream output = resolver.openOutputStream(uri);
     ) {
       byte[] buffer = new byte[BUFFER_SIZE];
