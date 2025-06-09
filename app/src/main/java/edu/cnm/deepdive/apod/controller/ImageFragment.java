@@ -2,6 +2,7 @@ package edu.cnm.deepdive.apod.controller;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle.State;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Picasso.LoadedFrom;
 import com.squareup.picasso.Target;
@@ -56,8 +58,20 @@ public class ImageFragment extends Fragment implements MenuProvider {
     viewModel
         .getApod()
         .observe(getViewLifecycleOwner(), this::displayApod);
+    viewModel
+        .getDownloadedImage()
+        .observe(getViewLifecycleOwner(), (uri) -> {
+          if (uri != null) {
+            viewModel.clearDownloadedImage();
+            Snackbar.make(binding.getRoot(), R.string.image_downloaded, Snackbar.LENGTH_LONG)
+                .setAction(R.string.view_image, (v) -> {
+                  Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                  startActivity(intent);
+                })
+                .show();
+          }
+        });
   }
-
 
   @Override
   public void onDestroyView() {
