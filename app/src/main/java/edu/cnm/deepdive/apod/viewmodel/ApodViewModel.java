@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.service.ApodService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
 
   private final MutableLiveData<Apod> apod;
   private final MutableLiveData<List<Apod>> apods;
+  private final MutableLiveData<Boolean> downloadComplete;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
   private final ApodService apodService;
@@ -28,6 +30,7 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
     super(application);
     apod = new MutableLiveData<>();
     apods = new MutableLiveData<>();
+    downloadComplete = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     apodService = ApodService.getInstance();
@@ -46,6 +49,10 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
 
   public LiveData<List<Apod>> getApods() {
     return apods;
+  }
+
+  public LiveData<Boolean> getDownloadComplete() {
+    return downloadComplete;
   }
 
   public LiveData<Throwable> getThrowable() {
@@ -69,6 +76,18 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
         .getApods(startDate, endDate)
         .subscribe(
             apods::postValue,
+            this::postThrowable,
+            pending
+        );
+  }
+
+  public void downloadImage(String title, URL url) {
+    throwable.setValue(null);
+    downloadComplete.setValue(null);
+    apodService
+        .downloadImage(title, url)
+        .subscribe(
+            () -> downloadComplete.postValue(true),
             this::postThrowable,
             pending
         );

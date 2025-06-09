@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item
+    android:id="@+id/show_info"
+    android:title="@string/details_title"
+    android:icon="@drawable/info"
+    app:showAsAction="always"
+    tools:ignore="AlwaysShowAction"/>
+
+  <item
+    android:id="@+id/download_image"
+    android:title="@string/download_title"
+    android:icon="@drawable/download"
+    app:showAsAction="always"
+    tools:ignore="AlwaysShowAction"/>
+
+</menu>

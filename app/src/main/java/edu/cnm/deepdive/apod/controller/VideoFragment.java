@@ -64,7 +64,7 @@ public class VideoFragment extends Fragment implements MenuProvider {
 
   @Override
   public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-    menuInflater.inflate(R.menu.detail_actions, menu);
+    menuInflater.inflate(R.menu.video_actions, menu);
   }
 
   @Override
