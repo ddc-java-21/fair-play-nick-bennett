@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.controller;
+package edu.cnm.deepdive.fairplay.controller;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -28,10 +28,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Picasso.LoadedFrom;
 import com.squareup.picasso.Target;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.databinding.FragmentImageBinding;
-import edu.cnm.deepdive.apod.model.Apod;
-import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
+import edu.cnm.deepdive.fairplay.R;
+import edu.cnm.deepdive.fairplay.databinding.FragmentImageBinding;
+import edu.cnm.deepdive.fairplay.model.Apod;
+import edu.cnm.deepdive.fairplay.viewmodel.ApodViewModel;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;

@@ -32,6 +32,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "nasa-apod"
+rootProject.name = "fair-play"
 
 include(":app")

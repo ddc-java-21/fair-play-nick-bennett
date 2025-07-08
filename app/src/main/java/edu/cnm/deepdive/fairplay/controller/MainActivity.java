@@ -1,15 +1,13 @@
-package edu.cnm.deepdive.apod.controller;
+package edu.cnm.deepdive.fairplay.controller;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDeepLinkSaveStateControl;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.fairplay.R;
+import edu.cnm.deepdive.fairplay.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 

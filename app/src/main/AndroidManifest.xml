@@ -7,7 +7,7 @@
   <application
     android:allowBackup="false"
     android:label="@string/app_name"
-    android:name=".ApodApplication"
+    android:name=".FairPlayApplication"
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     android:icon="@mipmap/launcher"

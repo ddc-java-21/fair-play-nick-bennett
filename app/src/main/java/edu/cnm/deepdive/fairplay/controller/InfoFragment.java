@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.controller;
+package edu.cnm.deepdive.fairplay.controller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import edu.cnm.deepdive.apod.databinding.FragmentInfoBinding;
-import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
+import edu.cnm.deepdive.fairplay.databinding.FragmentInfoBinding;
+import edu.cnm.deepdive.fairplay.viewmodel.ApodViewModel;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 

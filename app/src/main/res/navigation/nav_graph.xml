@@ -8,7 +8,7 @@
 
   <fragment
     android:id="@+id/list_fragment"
-    android:name="edu.cnm.deepdive.apod.controller.ListFragment"
+    android:name="edu.cnm.deepdive.fairplay.controller.ListFragment"
     android:label="@string/app_name"
     tools:layout="@layout/fragment_list">
 
@@ -28,7 +28,7 @@
 
   <fragment
     android:id="@+id/image_fragment"
-    android:name="edu.cnm.deepdive.apod.controller.ImageFragment"
+    android:name="edu.cnm.deepdive.fairplay.controller.ImageFragment"
     tools:layout="@layout/fragment_image">
 
     <action
@@ -39,7 +39,7 @@
 
   <fragment
     android:id="@+id/video_fragment"
-    android:name="edu.cnm.deepdive.apod.controller.VideoFragment"
+    android:name="edu.cnm.deepdive.fairplay.controller.VideoFragment"
     tools:layout="@layout/fragment_video">
 
     <action
@@ -50,7 +50,7 @@
 
   <dialog
     android:id="@+id/info_fragment"
-    android:name="edu.cnm.deepdive.apod.controller.InfoFragment"
+    android:name="edu.cnm.deepdive.fairplay.controller.InfoFragment"
     tools:layout="@layout/fragment_info"/>
 
 </navigation>

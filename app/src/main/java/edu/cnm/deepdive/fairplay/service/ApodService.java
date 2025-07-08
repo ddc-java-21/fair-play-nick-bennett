@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.service;
+package edu.cnm.deepdive.fairplay.service;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -8,10 +8,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.MediaColumns;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.model.Apod;
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.CompletableEmitter;
+import edu.cnm.deepdive.fairplay.R;
+import edu.cnm.deepdive.fairplay.model.Apod;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;

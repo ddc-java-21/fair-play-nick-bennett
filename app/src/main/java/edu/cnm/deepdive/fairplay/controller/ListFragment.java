@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.controller;
+package edu.cnm.deepdive.fairplay.controller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.google.android.material.snackbar.Snackbar;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.adapter.ApodAdapter;
-import edu.cnm.deepdive.apod.databinding.FragmentListBinding;
-import edu.cnm.deepdive.apod.model.Apod;
-import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
+import edu.cnm.deepdive.fairplay.R;
+import edu.cnm.deepdive.fairplay.adapter.ApodAdapter;
+import edu.cnm.deepdive.fairplay.databinding.FragmentListBinding;
+import edu.cnm.deepdive.fairplay.model.Apod;
+import edu.cnm.deepdive.fairplay.viewmodel.ApodViewModel;
 
 public class ListFragment extends Fragment {
 

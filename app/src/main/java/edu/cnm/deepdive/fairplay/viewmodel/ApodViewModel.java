@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.viewmodel;
+package edu.cnm.deepdive.fairplay.viewmodel;
 
 import android.app.Application;
 import android.net.Uri;
@@ -8,8 +8,8 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import edu.cnm.deepdive.apod.model.Apod;
-import edu.cnm.deepdive.apod.service.ApodService;
+import edu.cnm.deepdive.fairplay.model.Apod;
+import edu.cnm.deepdive.fairplay.service.ApodService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.net.URL;
 import java.time.LocalDate;

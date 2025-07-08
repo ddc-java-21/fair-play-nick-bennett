@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.adapter;
+package edu.cnm.deepdive.fairplay.adapter;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.squareup.picasso.Picasso;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.databinding.ItemApodBinding;
-import edu.cnm.deepdive.apod.model.Apod;
-import edu.cnm.deepdive.apod.model.Apod.MediaType;
+import edu.cnm.deepdive.fairplay.R;
+import edu.cnm.deepdive.fairplay.databinding.ItemApodBinding;
+import edu.cnm.deepdive.fairplay.model.Apod;
+import edu.cnm.deepdive.fairplay.model.Apod.MediaType;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;

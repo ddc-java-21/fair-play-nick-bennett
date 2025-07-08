@@ -1,11 +1,13 @@
-package edu.cnm.deepdive.apod;
+package edu.cnm.deepdive.fairplay;
 
 import android.app.Application;
 import com.squareup.picasso.Picasso;
-import edu.cnm.deepdive.apod.service.ApodProxy;
-import edu.cnm.deepdive.apod.service.ApodService;
+import dagger.hilt.android.HiltAndroidApp;
+import edu.cnm.deepdive.fairplay.service.ApodProxy;
+import edu.cnm.deepdive.fairplay.service.ApodService;
 
-public class ApodApplication extends Application {
+@HiltAndroidApp
+public class FairPlayApplication extends Application {
 
   @Override
   public void onCreate() {

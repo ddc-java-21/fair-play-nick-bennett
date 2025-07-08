@@ -1,6 +1,5 @@
-package edu.cnm.deepdive.apod.service;
+package edu.cnm.deepdive.fairplay.service;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,8 +7,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.model.Apod;
+import edu.cnm.deepdive.fairplay.R;
+import edu.cnm.deepdive.fairplay.model.Apod;
 import io.reactivex.rxjava3.core.Single;
 import java.lang.reflect.Type;
 import java.time.LocalDate;

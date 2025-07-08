@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.controller;
+package edu.cnm.deepdive.fairplay.controller;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -20,10 +20,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle.State;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.databinding.FragmentVideoBinding;
-import edu.cnm.deepdive.apod.model.Apod;
-import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
+import edu.cnm.deepdive.fairplay.R;
+import edu.cnm.deepdive.fairplay.databinding.FragmentVideoBinding;
+import edu.cnm.deepdive.fairplay.model.Apod;
+import edu.cnm.deepdive.fairplay.viewmodel.ApodViewModel;
 
 public class VideoFragment extends Fragment implements MenuProvider {
 
