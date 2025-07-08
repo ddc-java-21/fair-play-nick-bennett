@@ -104,6 +104,11 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.retrofit.adapter.rx.java)
 
+    // Room libraries
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.room.rx.java)
+
     // Picasso library
     implementation(libs.picasso)
 

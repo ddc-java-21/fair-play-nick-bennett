@@ -1,16 +1,26 @@
 package edu.cnm.deepdive.fairplay.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.net.URL;
 import java.time.LocalDate;
 
+@Entity(tableName = "apod")
 public class Apod {
 
+  @PrimaryKey(autoGenerate = true)
+  @ColumnInfo(name = "apod_id")
+  private long id;
+
   @Expose(serialize = false, deserialize = true)
+  @ColumnInfo(name = "date_created")
   private final LocalDate date;
 
   @Expose(serialize = false, deserialize = true)
+  @ColumnInfo(collate = ColumnInfo.NOCASE)
   private final String title;
 
   @Expose(serialize = false, deserialize = true)
@@ -27,6 +37,7 @@ public class Apod {
 
   @Expose(serialize = false, deserialize = true)
   @SerializedName("media_type")
+  @ColumnInfo(name = "media_type")
   private final MediaType mediaType;
 
   Apod(LocalDate date, String title, String explanation, String copyright, URL url, URL hdurl,
@@ -38,6 +49,14 @@ public class Apod {
     this.url = url;
     this.hdurl = hdurl;
     this.mediaType = mediaType;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public LocalDate getDate() {
